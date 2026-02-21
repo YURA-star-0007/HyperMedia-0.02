@@ -1,6 +1,8 @@
 
 import React from 'react';
+import { Plus } from 'lucide-react';
 import { MOCK_STORIES, CURRENT_USER } from '../constants';
+import { motion } from 'framer-motion';
 
 const Stories: React.FC = () => {
   const handleStoryClick = (username: string) => {
@@ -8,35 +10,56 @@ const Stories: React.FC = () => {
   };
 
   return (
-    <div className="bg-transparent border-b border-zinc-800 py-4 mb-2 overflow-x-auto no-scrollbar">
-      <div className="flex px-4 space-x-4">
-        {/* Current User Story */}
-        <div className="flex flex-col items-center space-y-1 min-w-[70px] cursor-pointer" onClick={() => handleStoryClick('Your')}>
-          <div className="relative">
-            <div className="w-16 h-16 rounded-full p-[2px] border border-zinc-800">
-               <img src={CURRENT_USER.avatar} alt="You" className="w-full h-full rounded-full object-cover" />
-            </div>
-            <div className="absolute bottom-0 right-0 bg-blue-600 text-white rounded-full p-0.5 border-2 border-zinc-950">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-            </div>
+    <div className="py-6 overflow-x-auto no-scrollbar">
+      <div className="flex px-4 items-center -space-x-4">
+        
+        {/* Current User Story Card */}
+        <motion.div 
+          whileHover={{ y: -8, rotate: 2, zIndex: 50 }}
+          whileTap={{ scale: 0.95 }}
+          className="relative flex-shrink-0 w-20 h-24 sm:w-24 sm:h-28 rounded-2xl cursor-pointer group transition-all duration-300 border-4 border-zinc-950 z-10"
+          onClick={() => handleStoryClick('Your')}
+        >
+          <img 
+            src={CURRENT_USER.avatar} 
+            alt="You" 
+            className="w-full h-full rounded-xl object-cover brightness-75 group-hover:brightness-100 transition-all" 
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent rounded-xl flex flex-col justify-end items-center pb-2">
+            <span className="text-[10px] font-bold text-white truncate w-full text-center px-1">You</span>
           </div>
-          <span className="text-[11px] text-zinc-500">Your story</span>
-        </div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-600 text-white rounded-full p-1.5 shadow-lg group-hover:scale-110 transition-transform">
+             <Plus size={16} strokeWidth={3} />
+          </div>
+        </motion.div>
 
         {/* Other Stories */}
-        {MOCK_STORIES.map(story => (
-          <div 
+        {MOCK_STORIES.map((story, index) => (
+          <motion.div 
             key={story.id} 
-            className="flex flex-col items-center space-y-1 min-w-[70px] cursor-pointer"
+            whileHover={{ y: -8, scale: 1.05, zIndex: 50 }}
+            whileTap={{ scale: 0.95 }}
+            className={`relative flex-shrink-0 w-20 h-24 sm:w-24 sm:h-28 rounded-2xl cursor-pointer group transition-all duration-300 border-4 border-zinc-950 ${!story.hasSeen ? 'ring-2 ring-purple-500 ring-offset-2 ring-offset-zinc-950' : ''}`}
+            style={{ zIndex: 5 - Math.min(index, 4) }} // Stack order
             onClick={() => handleStoryClick(story.user.username)}
           >
-            <div className={`w-16 h-16 rounded-full p-[2px] ${!story.hasSeen ? 'bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600' : 'border border-zinc-800'}`}>
-              <div className="bg-zinc-950 p-[2px] rounded-full w-full h-full">
-                <img src={story.user.avatar} alt={story.user.username} className="w-full h-full rounded-full object-cover" />
-              </div>
+            <img 
+              src={story.user.avatar} 
+              alt={story.user.username} 
+              className="w-full h-full rounded-xl object-cover" 
+            />
+            {/* Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent rounded-xl flex flex-col justify-end items-center pb-2">
+              <span className="text-[10px] font-bold text-zinc-100 truncate w-full text-center px-1 drop-shadow-md">
+                {story.user.username}
+              </span>
             </div>
-            <span className="text-[11px] truncate w-16 text-center text-zinc-300">{story.user.username}</span>
-          </div>
+            
+            {/* Live/New Indicator Dot if not seen */}
+            {!story.hasSeen && (
+              <div className="absolute top-2 right-2 w-2.5 h-2.5 bg-blue-500 rounded-full border border-zinc-900 shadow-[0_0_8px_rgba(59,130,246,0.8)] animate-pulse"></div>
+            )}
+          </motion.div>
         ))}
       </div>
     </div>

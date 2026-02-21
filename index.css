@@ -1,0 +1,231 @@
+@import "tailwindcss";
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #000;
+    color: #f4f4f5;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+}
+.font-system {
+    font-family: 'Orbitron', sans-serif;
+}
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Galaxy Effect */
+.galaxy-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(78, 130, 238, 0.15), transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(179, 120, 231, 0.15), transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 1), transparent 100%);
+    z-index: -5;
+    animation: galaxy-rotate 60s linear infinite;
+}
+
+@keyframes galaxy-rotate {
+    0% { filter: hue-rotate(0deg) brightness(1); }
+    50% { filter: hue-rotate(45deg) brightness(1.2); }
+    100% { filter: hue-rotate(0deg) brightness(1); }
+}
+
+/* Blackhole Container */
+.blackhole-bg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
+    z-index: -3;
+    opacity: 0.6;
+    pointer-events: none;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.blackhole-image {
+    width: 120%;
+    height: 120%;
+    object-fit: cover;
+    filter: contrast(1.2) saturate(1.2);
+    animation: blackhole-pulse 20s ease-in-out infinite;
+}
+
+@keyframes blackhole-pulse {
+    0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.5; }
+    50% { transform: scale(1.1) rotate(5deg); opacity: 0.7; }
+}
+
+/* Night Sky Animations */
+@keyframes drift {
+  from { transform: translateX(110vw) translateY(10vh); }
+  to { transform: translateX(-20vw) translateY(15vh); }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.moon {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  background: #fefce8;
+  border-radius: 50%;
+  box-shadow: 0 0 40px 10px rgba(254, 252, 232, 0.2);
+  z-index: -1;
+  animation: drift 120s linear infinite;
+}
+
+.star {
+  position: fixed;
+  background: white;
+  border-radius: 50%;
+  z-index: -2;
+  animation: twinkle var(--duration) ease-in-out infinite;
+  opacity: 0.5;
+}
+
+/* Aurora Theme Animation */
+@keyframes aurora-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.aurora-bg {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: aurora-flow 15s ease infinite;
+}
+
+/* Solo Leveling Style Holographic UI */
+.system-window {
+  background: rgba(0, 20, 40, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 242, 255, 0.3);
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.2), inset 0 0 10px rgba(0, 242, 255, 0.1);
+}
+.system-border {
+  position: relative;
+}
+.system-border::before {
+  content: '';
+  position: absolute;
+  top: -2px; left: -2px; right: -2px; bottom: -2px;
+  border: 1px solid currentColor;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Alive Portal Animations - Orange/Gold Swirl */
+@keyframes portal-pulse {
+  0%, 100% { box-shadow: 0 0 20px #f97316, 0 0 40px #fbbf24, inset 0 0 20px #f97316; transform: scale(1); }
+  50% { box-shadow: 0 0 35px #ea580c, 0 0 70px #f59e0b, inset 0 0 30px #ea580c; transform: scale(1.05); }
+}
+
+@keyframes portal-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes sparkle-flicker {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.portal-button {
+  background: #000;
+  border: 2px solid #f97316;
+  position: relative;
+  overflow: visible !important;
+  animation: portal-pulse 2s infinite ease-in-out;
+}
+
+/* Swirling Ring Effects */
+.portal-button::before,
+.portal-button::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #fbbf24;
+  border-right-color: #f97316;
+  filter: blur(1px);
+  animation: portal-rotate 1.5s linear infinite;
+}
+
+.portal-button::after {
+  inset: -12px;
+  border-width: 2px;
+  border-top-color: #f59e0b;
+  border-left-color: #ea580c;
+  animation: portal-rotate 3s linear reverse infinite;
+  opacity: 0.6;
+}
+
+/* Sparkles / Particles Simulation */
+.portal-inner-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, transparent 60%, rgba(249, 115, 22, 0.4) 100%);
+  box-shadow: inset 0 0 15px #f97316;
+}
+
+.portal-sparkles {
+  position: absolute;
+  inset: -15px;
+  pointer-events: none;
+  background-image: 
+    radial-gradient(1px 1px at 20% 30%, #fff, transparent),
+    radial-gradient(2px 2px at 40% 70%, #fbbf24, transparent),
+    radial-gradient(1px 1px at 80% 40%, #fff, transparent),
+    radial-gradient(2px 2px at 10% 60%, #f97316, transparent),
+    radial-gradient(1px 1px at 90% 80%, #fbbf24, transparent);
+  background-size: 100% 100%;
+  animation: portal-rotate 10s linear infinite, sparkle-flicker 0.5s infinite;
+}
+
+/* Warp Animation Styles */
+@keyframes warp-tunnel {
+  0% { transform: scale(1); opacity: 0; filter: blur(10px); }
+  20% { opacity: 1; }
+  100% { transform: scale(5); opacity: 0; filter: blur(50px); }
+}
+
+.warp-container {
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.warp-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid #fbbf24;
+  box-shadow: 0 0 20px #f97316, inset 0 0 20px #f97316;
+  animation: warp-tunnel 3s infinite linear;
+  opacity: 0;
+}
+
+.warp-ring:nth-child(1) { animation-delay: 0s; }
+.warp-ring:nth-child(2) { animation-delay: 0.5s; }
+.warp-ring:nth-child(3) { animation-delay: 1s; }
+.warp-ring:nth-child(4) { animation-delay: 1.5s; }
+.warp-ring:nth-child(5) { animation-delay: 2s; }
+.warp-ring:nth-child(6) { animation-delay: 2.5s; }
